@@ -14,6 +14,9 @@ router.get("/find/:id", async (req, res) => {
             id: req.params.id
         }
     });
+    if (idEmployee == 0)
+        return res.send('ID not found')
+
     return res.send(idEmployee);
 });
 router.post("/addEmployee", async (req, res) => {
@@ -25,17 +28,18 @@ router.post("/addEmployee", async (req, res) => {
 })
 
 router.delete("/delete/:id", async (req, res) => {
-    await db.Employee.destroy({
+    const deleteID = await db.Employee.destroy({
         where: {
             id: req.params.id
         }
     });
-
+    if (deleteID == 0)
+        return res.send('ID not found')
     return res.send('Successfully Deleted')
 });
 
 router.put("/update/:id", async (req, res) => {
-    const updateEmployee = await db.Employee.update({
+    const updateID = await db.Employee.update({
         name: req.body.name,
         department: req.body.department
     },
@@ -44,6 +48,9 @@ router.put("/update/:id", async (req, res) => {
                 id: req.params.id
             }
         })
+    if (updateID == 0)
+        return res.send('ID not found')
+
     return res.send('Updated!');
 });
 
