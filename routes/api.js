@@ -25,7 +25,7 @@ router.post("/addEmployee", async (req, res) => {
 })
 
 router.delete("/delete/:id", async (req, res) => {
-    const deleteData = await db.Employee.destroy({
+    await db.Employee.destroy({
         where: {
             id: req.params.id
         }
@@ -35,7 +35,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 router.put("/update/:id", async (req, res) => {
-    await db.Employee.update({
+    const updateEmployee = await db.Employee.update({
         name: req.body.name,
         department: req.body.department
     },
@@ -43,19 +43,12 @@ router.put("/update/:id", async (req, res) => {
             where: {
                 id: req.params.id
             }
-        }
-    ).then(() => res.send("Updated!"));
-})
+        })
+    return res.send('Updated!');
+});
 
-/*router.post("/addEmployee", (req, res) => {
-    (async () => {
-        await sequelize.sync();
-        db.Employee.create({
-            name: req.body.text,
-            department: req.body.text
-        });
-    })
-});*/
+
+
 
 
 module.exports = router;
